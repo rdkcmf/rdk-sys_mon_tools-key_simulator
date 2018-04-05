@@ -23,9 +23,9 @@ ifeq ($(USE_IARM),y)
 	IARM_CFLAGS = -I$(IARM)/  -I$(DFB_ROOT)/usr/local/include/directfb 
 	IARM_LDFLAGS=-L$(IARM)/install/lib -L$(DFB_LIB)
 ifeq ($(USE_DBUS),y)
-       IARM_LIBS = -ldirect -ldbus-1 -lstdc++ -lfusion -lnexus -lUIIARM -lpthread
+       IARM_LIBS = -ldbus-1 -lstdc++ -lnexus -lUIIARM -lpthread
 else
-        IARM_LIBS = -ldirect -lfusiondale -lfusion -lnexus -lUIIARM -lpthread
+        IARM_LIBS = -lfusiondale -lnexus -lUIIARM -lpthread
 endif
 	OBJS=IARM_UIEventSimulator
 endif
@@ -37,9 +37,9 @@ ifeq ($(USE_IARM_BUS),y)
 	IARM_CFLAGS += -I$(IARM_MGR)/generic/ir/include -I$(IARM_MGR)/generic/hal/include -I$(IARM)/core/ 
 	IARM_LDFLAGS=-L$(IARM)/install/ -L$(DFB_LIB) -L$(OPENSOURCE_BASE)/lib  -L$(GLIB_LIBRARY_PATH)/
 ifeq ($(USE_DBUS),y)
-       IARM_LIBS = -ldirect -ldbus-1 -lstdc++ -lfusion -lIARMBus -lpthread
+       IARM_LIBS = -ldbus-1 -lstdc++ -lIARMBus -lpthread
 else
-        IARM_LIBS = -ldirect -lfusiondale -lfusion -lIARMBus -lpthread 
+        IARM_LIBS = -lfusiondale -lIARMBus -lpthread 
 endif
 	OBJS=IARM_BUS_UIEventSimulator
 endif

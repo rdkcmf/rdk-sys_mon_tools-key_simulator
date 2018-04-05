@@ -20,7 +20,7 @@ SUBDIRS =
 DIST_SUBDIRS =
 
 # the list of header files that belong to the library (to be installed later)
-AM_CFLAGS = $(DBUS_CFLAGS) $(DIRECT_CFLAGS) $(FUSION_CFLAGS) $(GLIB_CFLAGS) \
+AM_CFLAGS = $(DBUS_CFLAGS) $(GLIB_CFLAGS) \
 	    -I$(PKG_CONFIG_SYSROOT_DIR)${includedir}/rdk/iarmbus \
 	    -I$(PKG_CONFIG_SYSROOT_DIR)${includedir}/rdk/iarmmgrs/ir
 
@@ -29,4 +29,4 @@ include_HEADERS = $(top_srcdir)/RDKIrKeyCodes.h
 bin_PROGRAMS = keySimulator
 
 keySimulator_SOURCES=IARM_BUS_UIEventSimulator.c
-keySimulator_LDADD = $(DIRECT_LIBS) $(FUSION_LIBS) $(GLIB_LIBS) -lIARMBus $(DBUS_LIBS)
+keySimulator_LDADD = $(GLIB_LIBS) -lIARMBus $(DBUS_LIBS)

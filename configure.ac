@@ -46,8 +46,6 @@ AC_PROG_CXX
 AC_CHECK_HEADERS([locale.h stdlib.h unistd.h])
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.24.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0 >= 2.24.0])
-PKG_CHECK_MODULES([DIRECT], [direct])
-PKG_CHECK_MODULES([FUSION], [fusion])
 PKG_CHECK_MODULES([DBUS], [dbus-1])
 
 AC_CHECK_LIB(gthread-2.0, g_thread_init)
