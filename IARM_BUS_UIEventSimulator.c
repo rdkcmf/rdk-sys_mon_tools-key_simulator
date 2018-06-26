@@ -39,6 +39,8 @@ char* executableName;
 static int keyCode = -1;
 static int interval = 1;
 static int repeat = 1;
+static int pressAndHold = 0;
+static int duration = 5;
 
 /**
  * @brief main!
@@ -88,6 +90,12 @@ int main(int argc, char *argv[])
 			}
 			break;
 
+		case 'p':
+		case 'P':
+			printf("Hold duaration = %s\n", &argv[1][2]);
+			duration = atoi(&argv[1][2]);
+			pressAndHold = 1;
+			break;
 		default:
 			printf("Wrong Arguments %s\n", argv[1]);
 			break;
@@ -159,7 +167,7 @@ IARM_Result_t findKeyCode(char command[])
 
 IARM_Result_t sendCommand()
 {
-	int i;
+	int i,j;
 
 #ifdef TRACE
 	printf("[FUNC] %s [LINE] %d\n", __FUNCTION__, __LINE__);
@@ -168,10 +176,26 @@ IARM_Result_t sendCommand()
 
 	for (i = 0; i < repeat; i++)
 	{
+		if (pressAndHold)
+		{
+			sendKeyEventToIARM(KET_KEYDOWN, keyCode);
+				usleep(50000);
+			for (j = 0;j < duration*20  ;j++ )
+			{
+				sendKeyEventToIARM(KET_KEYREPEAT, keyCode);
+				usleep(50000);
+			}
+			sendKeyEventToIARM(KET_KEYUP, keyCode);
+				usleep(50000);
+			sleep(interval);
+		}
+		else
+		{
 		sendKeyEventToIARM(KET_KEYDOWN, keyCode);
 		usleep(100);
 		sendKeyEventToIARM(KET_KEYUP, keyCode);
 		sleep(interval);
+		}
 	}
 
 	return IARM_RESULT_SUCCESS;
@@ -216,6 +240,7 @@ void usage(void)
 	printf("-                                                -\n");
 	printf("-h print usage\n");
 	printf("-r repeat number of times command is sent (default is once)\n");
+	printf("-p press and hold for interval (default is 5 seconds)\n");
 	printf("-i interval between commands (default 1 second\n");
 	printf("-k command to send (see list below)\n");
 	for (index = 0; index < length; index++)
@@ -225,6 +250,7 @@ void usage(void)
 	printf("Example:\n");
 	printf("\t %s -kexit\n", executableName);
 	printf("\t %s -r3 -i2 -kmenu\n", executableName);
+	printf("\t %s -kexit -p3\n", executableName);
 	printf("\t %s -r10 -i10 -kchup\n", executableName);
 	printf("\t %s -kchdown -r5 \n", executableName);
 	printf("-                                                -\n");
