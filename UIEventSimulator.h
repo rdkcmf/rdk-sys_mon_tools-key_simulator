@@ -40,6 +40,7 @@ lookUpTable table[] =
 { "8", KED_DIGIT8 },
 { "9", KED_DIGIT9 },
 { "power", KED_POWER },
+{ "allpower", KED_RF_POWER },
 { "up", KED_ARROWUP },
 { "down", KED_ARROWDOWN },
 { "left", KED_ARROWLEFT },
