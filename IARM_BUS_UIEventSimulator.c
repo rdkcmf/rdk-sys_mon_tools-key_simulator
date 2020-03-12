@@ -24,6 +24,7 @@
 #include "UIEventSimulator.h"
 #include "libIARM.h"
 #include "irMgr.h"
+#include "irMgrInternal.h"
 
 //#define TRACE
 
@@ -125,6 +126,7 @@ IARM_Result_t UIEventSimulator_Start()
 #endif
 	IARM_Bus_Init(IARM_BUS_UIEVENTSIMULATOR_NAME);
 	IARM_Bus_Connect();
+	UINPUT_init();
 	return IARM_RESULT_SUCCESS;
 }
 
@@ -218,6 +220,14 @@ void sendKeyEventToIARM(int keyType, int keyCode)
         eventData.data.irkey.keyCode = keyCode;
         eventData.data.irkey.isFP = 0;
         IARM_Bus_BroadcastEvent(IARM_BUS_IRMGR_NAME, (IARM_EventId_t) IARM_BUS_IRMGR_EVENT_IRKEY, (void *)&eventData, sizeof(eventData));
+        uinput_dispatcher_t dispatcher = UINPUT_GetDispatcher();
+#ifdef  SKY_BUILD
+        /*Time being replacing scan code with 0 to run the functionality*/
+        dispatcher(0, keyCode, keyType, 0);
+#else
+        dispatcher(keyCode, keyType, 0);
+#endif
+
 }
 
 /**
@@ -265,7 +275,7 @@ IARM_Result_t UIEventSimulator_Stop(void)
 {
     IARM_Bus_Disconnect();
     IARM_Bus_Term();
-
+    UINPUT_term();
     return IARM_RESULT_SUCCESS;
 }
 
