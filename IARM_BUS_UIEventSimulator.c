@@ -215,18 +215,21 @@ void sendKeyEventToIARM(int keyType, int keyCode)
 #endif
 
 	printf("Sending Key (%x, %x) from %s\r\n", keyType, keyCode, executableName);
+#if !defined ENABLE_KEY_SIM_UINPUT_DESP
 	IARM_Bus_IRMgr_EventData_t eventData;
         eventData.data.irkey.keyType = keyType;
         eventData.data.irkey.keyCode = keyCode;
         eventData.data.irkey.isFP = 0;
         IARM_Bus_BroadcastEvent(IARM_BUS_IRMGR_NAME, (IARM_EventId_t) IARM_BUS_IRMGR_EVENT_IRKEY, (void *)&eventData, sizeof(eventData));
+#else
         uinput_dispatcher_t dispatcher = UINPUT_GetDispatcher();
-#ifdef  SKY_BUILD
+  #ifdef  SKY_BUILD
         /*Time being replacing scan code with 0 to run the functionality*/
         dispatcher(0, keyCode, keyType, 0);
-#else
+  #else
         dispatcher(keyCode, keyType, 0);
-#endif
+  #endif
+#endif /*End of ENABLE_KEY_SIM_UINPUT_DESP*/
 
 }
 
