@@ -33,6 +33,9 @@ IARM_Result_t findKeyCode(char command[]);
 IARM_Result_t sendCommand();
 void sendKeyEventToIARM(int keyType, int keyCode);
 void usage(void);
+#if defined _SKQ_KEY_MAP_1_
+static int getScanCode(int keycode, int *uScanCode);
+#endif /*End of _SKQ_KEY_MAP_1_*/
 
 IARM_Result_t UIEventSimulator_Stop(void);
 char* executableName;
@@ -203,6 +206,25 @@ IARM_Result_t sendCommand()
 	return IARM_RESULT_SUCCESS;
 }
 
+#if defined _SKQ_KEY_MAP_1_
+static int getScanCode(int keycode, int *uScanCode)
+{
+    unsigned char i;
+
+    for (i=0; i < (sizeof(kSkyKeycodeMapTable)/sizeof(kSkyKeycodeMapTable[0])); i++)
+    {
+        if (kSkyKeycodeMapTable[i].iKeyCode == keycode)
+        {
+            *uScanCode = kSkyKeycodeMapTable[i].iScanCode;
+            return kSkyKeycodeMapTable[i].iScanCode;
+        }
+    }
+
+    printf("UNrecognized Key code %d \r\n", keycode);
+    return KED_UNDEFINEDKEY;
+}
+#endif
+
 /**
  * @brief send the key type and key code to IARM
  *
@@ -215,21 +237,19 @@ void sendKeyEventToIARM(int keyType, int keyCode)
 #endif
 
 	printf("Sending Key (%x, %x) from %s\r\n", keyType, keyCode, executableName);
-#if !defined ENABLE_KEY_SIM_UINPUT_DESP
 	IARM_Bus_IRMgr_EventData_t eventData;
         eventData.data.irkey.keyType = keyType;
         eventData.data.irkey.keyCode = keyCode;
         eventData.data.irkey.isFP = 0;
         IARM_Bus_BroadcastEvent(IARM_BUS_IRMGR_NAME, (IARM_EventId_t) IARM_BUS_IRMGR_EVENT_IRKEY, (void *)&eventData, sizeof(eventData));
-#else
+#if defined _SKQ_KEY_MAP_1_
         uinput_dispatcher_t dispatcher = UINPUT_GetDispatcher();
-  #ifdef  SKY_BUILD
         /*Time being replacing scan code with 0 to run the functionality*/
-        dispatcher(0, keyCode, keyType, 0);
-  #else
-        dispatcher(keyCode, keyType, 0);
-  #endif
-#endif /*End of ENABLE_KEY_SIM_UINPUT_DESP*/
+        uinput_dispatcherScancode_t dispatcherScancode = UINPUT_GetDispatcherScancode ();
+        int uScanCode = KED_UNDEFINEDKEY;
+        getScanCode (keyCode, &uScanCode);
+        dispatcherScancode (uScanCode, keyCode, keyType, 0);
+#endif /*End of _SKQ_KEY_MAP_1_*/
 
 }
 
