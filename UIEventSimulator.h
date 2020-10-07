@@ -27,6 +27,128 @@ typedef struct
 	int keyCode;
 } lookUpTable;
 
+#ifdef _SKQ_KEY_MAP_1_
+lookUpTable table[] =
+{
+{ "power", KED_TVPOWER },
+{ "home", KED_MENU }, 
+{ "guide", KED_GUIDE }, //Same as KED_MENU
+{ "sky", KED_STAR },  
+
+{ "0", KED_DIGIT0 },
+{ "1", KED_DIGIT1 },
+{ "2", KED_DIGIT2 },
+{ "3", KED_DIGIT3 },
+{ "4", KED_DIGIT4 },
+{ "5", KED_DIGIT5 },
+{ "6", KED_DIGIT6 },
+{ "7", KED_DIGIT7 },
+{ "8", KED_DIGIT8 },
+{ "9", KED_DIGIT9 },
+
+{ "up", KED_ARROWUP },
+{ "chup", KED_CHANNELUP }, //Same as KED_ARROWUP
+{ "down", KED_ARROWDOWN },
+{ "chdown", KED_CHANNELUP }, //Same as KED_ARROWDOWN
+{ "left", KED_ARROWLEFT },
+{ "right", KED_ARROWRIGHT },
+{ "enter", KED_SELECT },
+
+{ "mute", KED_MUTE },
+{ "volup", KED_VOLUMEUP },
+{ "voldown", KED_VOLUMEDOWN },
+{ "pageup", KED_PAGEUP },
+{ "pagedown", KED_PAGEDOWN },
+
+{ "play", KED_PLAY },
+{ "pause", KED_PAUSE },
+{ "fastfwd", KED_FASTFORWARD },
+{ "rewind", KED_REWIND },
+
+{ "exit", KED_EXIT },
+{ "search", KED_SEARCH }, 
+{ "record", KED_RECORD },
+
+{ "info", KED_INFO },
+
+{ "red", KED_KEYC }, 
+{ "green", KED_KEYD }, 
+{ "yellow", KED_KEYA }, 
+{ "blue", KED_KEYB }, 
+
+{ "apps", KED_PERIOD }, 
+{ "ondemand", KED_ONDEMAND }, //Same as KED_PERIOD
+{ "help", KED_HELP },
+
+{ "inputkey", KED_INPUTKEY },
+{ "lowBat", KED_POUND } 
+
+};
+
+//Scancode Mapping
+typedef struct {
+	int iKeyCode;
+    int iScanCode;
+} Sky_keycodeMap;
+
+static Sky_keycodeMap kSkyKeycodeMapTable [] =
+{
+	{KED_TVPOWER, 0x0C},
+	{KED_MENU, 0xCC},
+	{KED_GUIDE, 0xCC},
+	{KED_STAR, 0x80},
+
+	{KED_DIGIT1, 0x01},
+	{KED_DIGIT2, 0x02},
+	{KED_DIGIT3, 0x03},
+	{KED_DIGIT4, 0x04},
+	{KED_DIGIT5, 0x05},
+	{KED_DIGIT6, 0x06},
+	{KED_DIGIT7, 0x07},
+	{KED_DIGIT8, 0x08},
+	{KED_DIGIT9, 0x09},
+	{KED_DIGIT0, 0x00},
+				  
+	{KED_ARROWUP, 0x58},
+	{KED_CHANNELUP, 0x58},
+	{KED_ARROWDOWN, 0x59},
+	{KED_CHANNELDOWN, 0x59},
+	{KED_ARROWLEFT, 0x5A},
+	{KED_ARROWRIGHT, 0x5B},
+	{KED_SELECT, 0x5C},
+				  
+	{KED_MUTE, 0x0D},
+	{KED_VOLUMEUP, 0x10},
+	{KED_VOLUMEDOWN, 0x11},
+	{KED_PAGEUP, 0x20},
+	{KED_PAGEDOWN, 0x21},
+				  
+	{KED_PLAY, 0x3E},
+	{KED_PAUSE, 0x3E},
+	{KED_FASTFORWARD, 0x28},
+	{KED_REWIND, 0x3D},
+				  
+	{KED_EXIT, 0x83},
+	{KED_SEARCH, 0x7E},
+	{KED_RECORD, 0x40},
+				  
+	{KED_INFO, 0xCB},
+				  
+	{KED_KEYC, 0x6D},
+	{KED_KEYD, 0x6E},
+	{KED_KEYA, 0x6F},
+	{KED_KEYB, 0x70},
+				  
+	{KED_PERIOD, 0xF5},
+	{KED_ONDEMAND, 0xF5},
+	{KED_HELP, 0x81},
+				  
+	{KED_INPUTKEY, 0x29},
+	{KED_POUND, 0x47}
+};
+
+
+#else //else _SKQ_KEY_MAP_1_
 lookUpTable table[] =
 {
 { "0", KED_DIGIT0 },
@@ -167,6 +289,7 @@ lookUpTable table[] =
 //{ "frontpanel3", KED_ }
 
 };
+#endif //end _SKQ_KEY_MAP_1_
 
 #define IARM_BUS_UIEVENTSIMULATOR_NAME                                             "UIEventSimulator" /*!<  UIEventSimulator -bus name */
 
