@@ -47,9 +47,9 @@ lookUpTable table[] =
 { "9", KED_DIGIT9 },
 
 { "up", KED_ARROWUP },
-{ "chup", KED_CHANNELUP }, //Same as KED_ARROWUP
+{ "chup", KED_CHANNELUP },
 { "down", KED_ARROWDOWN },
-{ "chdown", KED_CHANNELUP }, //Same as KED_ARROWDOWN
+{ "chdown", KED_CHANNELUP },
 { "left", KED_ARROWLEFT },
 { "right", KED_ARROWRIGHT },
 { "enter", KED_SELECT },
@@ -287,9 +287,9 @@ lookUpTable table[] =
 //{ "navnext", KED_ }
 //{ "voloptmz", KED_ }
 //{ "frontpanel3", KED_ }
-
 };
 #endif //end _SKQ_KEY_MAP_1_
+
 
 #define IARM_BUS_UIEVENTSIMULATOR_NAME                                             "UIEventSimulator" /*!<  UIEventSimulator -bus name */
 

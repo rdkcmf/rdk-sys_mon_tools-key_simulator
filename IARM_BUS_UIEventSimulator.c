@@ -179,12 +179,18 @@ IARM_Result_t sendCommand()
 	printf("[FUNC] %s Command=%d repeat=%d interval=%d\n", __FUNCTION__, keyCode, repeat, interval);
 #endif
 
+#if defined _SKQ_KEY_MAP_1_
+/* Allow a fraction of second for EPG to get ready to receive key events
+ * from the newly created input dev via UINPUT_init()
+*/
+	usleep(50000);
+#endif
 	for (i = 0; i < repeat; i++)
 	{
 		if (pressAndHold)
 		{
 			sendKeyEventToIARM(KET_KEYDOWN, keyCode);
-				usleep(50000);
+			usleep(50000);
 			for (j = 0;j < duration*20  ;j++ )
 			{
 				sendKeyEventToIARM(KET_KEYREPEAT, keyCode);
