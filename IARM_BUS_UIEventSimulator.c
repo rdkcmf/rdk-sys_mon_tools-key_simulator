@@ -111,6 +111,17 @@ int main(int argc, char *argv[])
 
 	if (keyCode >= 0)
 	{
+        #if defined _SKQ_KEY_MAP_1_
+		/* Allow extra time for other apps(for example, asserviced)
+		 * to listen to the event. There is no handshake between
+		 * keySimulator and other apps. Thus there is no way the other
+		 * app notifies keySimulator that the file descriptor of
+		 * /dev/input/eventx is added into the event loop by the other
+		 * app. Therefore, after UI_DEV_CREATE and before sending first
+		 * key, extra one second reasonable delay is given.
+		 */
+		sleep(1);
+        #endif
 		sendCommand();
 	}
 	UIEventSimulator_Stop();
