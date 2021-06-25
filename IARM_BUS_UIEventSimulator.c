@@ -140,7 +140,7 @@ IARM_Result_t UIEventSimulator_Start()
 #endif
 	IARM_Bus_Init(IARM_BUS_UIEVENTSIMULATOR_NAME);
 	IARM_Bus_Connect();
-	UINPUT_init();
+	UINPUT_init_src (IRMGR_UINPUT_SRC_KEYSIM);
 	return IARM_RESULT_SUCCESS;
 }
 
